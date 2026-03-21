@@ -10,3 +10,7 @@ resource "aws_route_table" "alumni-public-rt" {
     Name = "alumni-public-rt"
   }
 }
+
+output "public-rt-id" {
+  value = aws_route_table.alumni-public-rt.id
+}
