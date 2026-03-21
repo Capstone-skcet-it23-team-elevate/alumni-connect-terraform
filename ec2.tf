@@ -1,3 +1,24 @@
+locals {
+  base-init = <<-EOF
+    #!/bin/bash
+    apt-get update -y
+    apt-get upgrade -y
+    apt-get install -y curl
+  EOF
+
+  docker-install = <<-EOF
+    curl https://get.docker.com | bash
+  EOF
+
+  nat-setup = <<-EOF
+    echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
+    sysctl -p
+    apt-get install -y iptables-persistent
+    iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+    netfilter-persistent save
+  EOF
+}
+
 resource "aws_instance" "bastion" {
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = "t2.micro"
