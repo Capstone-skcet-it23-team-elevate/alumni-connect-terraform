@@ -13,6 +13,7 @@ resource "aws_instance" "nat-instance" {
   ami               = data.aws_ami.ubuntu.id
   instance_type     = "t2.micro"
   subnet_id         = aws_subnet.public-nat-subnet.id
+  associate_public_ip_address = true
   source_dest_check = false
 
   tags = {
