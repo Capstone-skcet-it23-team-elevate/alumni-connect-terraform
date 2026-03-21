@@ -27,3 +27,12 @@ resource "aws_route_table" "alumni-public-rt" {
     Name = "alumni-public-rt"
   }
 }
+
+resource "aws_route_table" "private-nat-rt" {
+  vpc_id = aws_vpc.alumni-connect-vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    network_interface_id = aws_instance.nat-instance.primary_network_interface_id
+  }
+}
