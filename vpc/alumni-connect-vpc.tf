@@ -6,3 +6,7 @@ resource "aws_vpc" "alumni-connect-vpc" {
     Name = "alumni-connect-vpc"
   }
 }
+
+output "alumni-vpc-id" {
+  value = aws_vpc.alumni-connect-vpc.id
+}
