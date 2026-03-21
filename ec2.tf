@@ -19,7 +19,7 @@ locals {
         -e POSTGRES_PASSWORD={var.db_password} \
         -e POSTGRES_DB=alumni_connect \
         -v /postgres_data:/var/lib/postgresql/data \
-        -p 5432:5432 \
+        -p 0.0.0.0:5432:5432 \
         postgres:16
     EOF
 
