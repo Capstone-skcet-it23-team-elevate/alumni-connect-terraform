@@ -10,7 +10,7 @@ locals {
     curl https://get.docker.com | bash
   EOF
 
-  run-postgres = <<-EOF
+  database-run = <<-EOF
     mkdir /postgres_data
     docker run -d \
         --name postgres \
@@ -70,7 +70,7 @@ resource "aws_instance" "database-server" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.database-subnet.id
-  user_data = join("\n", [local.base-init, local.docker-install, local.run-postgres])
+  user_data = join("\n", [local.base-init, local.docker-install, local.database-run])
 
   tags = {
     Name = "database-server"
