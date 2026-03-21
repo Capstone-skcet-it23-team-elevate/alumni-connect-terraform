@@ -35,4 +35,8 @@ resource "aws_route_table" "private-nat-rt" {
     cidr_block = "0.0.0.0/0"
     network_interface_id = aws_instance.nat-instance.primary_network_interface_id
   }
+
+  tags = {
+    Name = "private-nat-rt"
+  }
 }
