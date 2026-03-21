@@ -5,6 +5,7 @@ module "vpc-stuff" {
 resource "aws_subnet" "management-subnet" {
   vpc_id     = module.vpc-stuff.alumni-vpc-id
   cidr_block = "172.16.3.0/24"
+  availability_zone = "ap-south-1a"
   tags = {
     Name = "management-subnet"
   }
