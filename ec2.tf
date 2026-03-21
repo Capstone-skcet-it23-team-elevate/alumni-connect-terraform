@@ -10,6 +10,19 @@ locals {
     curl https://get.docker.com | bash
   EOF
 
+  run-postgres = <<-EOF
+    mkdir /postgres_data
+    docker run -d \
+        --name postgres \
+        --restart unless-stopped \
+        -e POSTGRES_USER=postgres \
+        -e POSTGRES_PASSWORD={var.db_password} \
+        -e POSTGRES_DB=alumni-connect \
+        -v /postgres_data:/var/lib/postgresql/data \
+        -p 5432:5432 \
+        postgres:16
+    EOF
+
   nat-setup = <<-EOF
     echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
     sysctl -p
@@ -48,7 +61,7 @@ resource "aws_instance" "database-server" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.database-subnet.id
-  user_data = join("\n", [local.base-init, local.docker-install])
+  user_data = join("\n", [local.base-init, local.docker-install, local.run-postgres])
 
   tags = {
     Name = "database-server"
