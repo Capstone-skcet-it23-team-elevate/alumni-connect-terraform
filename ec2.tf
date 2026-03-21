@@ -23,6 +23,15 @@ locals {
         postgres:16
     EOF
 
+  backend-run = <<-EOF
+    docker run -d \
+        --name alumni-connect-backend \
+        --restart unless-stopped \
+        -e DATABASE_URL=postgresql://postgres:${var.db_password}@${aws_instance.database-server.private_ip}/alumni_connect \
+        -p 0.0.0.0:8000:8000 \
+        shobanchiddarth/alumni-connect-backend:0.0.2
+    EOF
+
   nat-setup = <<-EOF
     echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
     sysctl -p
@@ -72,7 +81,7 @@ resource "aws_instance" "backend-server" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.backend-subnet.id
-  user_data = join("\n", [local.base-init, local.docker-install])
+  user_data = join("\n", [local.base-init, local.docker-install, local.backend-run])
 
   tags = {
     Name = "backend-server"
