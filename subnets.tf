@@ -70,3 +70,8 @@ resource "aws_route_table_association" "backend-subnet" {
   subnet_id = aws_subnet.backend-subnet.id
   route_table_id = aws_route_table.private-nat-rt.id
 }
+
+resource "aws_route_table_association" "empty-subnet" {
+  subnet_id = aws_subnet.empty-subnet.id
+  route_table_id = aws_route_table.alumni-public-rt.id
+}
