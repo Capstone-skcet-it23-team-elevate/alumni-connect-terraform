@@ -112,37 +112,3 @@ resource "aws_security_group" "db-sg" {
     cidr_blocks = [ "0.0.0.0/0" ]
   }
 }
-
-resource "aws_security_group" "nat-instance-sg" {
-  name = "nat-instance-security-group"
-  vpc_id = aws_vpc.alumni-connect-vpc.id
-  description = "Allow SSH and ping bastion, and NATting"
-
-  ingress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-    cidr_blocks = [ aws_vpc.alumni-connect-vpc.cidr_block ]
-  }
-
-  ingress {
-    from_port = 22
-    to_port = 22
-    protocol = "tcp"
-    security_groups = [ aws_security_group.bastion-sg.id ]
-  }
-
-  ingress {
-    from_port = -1
-    to_port = -1
-    protocol = "icmp"
-    security_groups = [ aws_security_group.bastion-sg.id ]
-  }
-
-  egress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-    cidr_blocks = [ "0.0.0.0/0" ]
-  }
-}
