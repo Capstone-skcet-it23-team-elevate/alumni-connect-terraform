@@ -22,7 +22,7 @@
 .nfs*
 
 ### Terraform ###
-
+*.tfplan
 *.lock.hcl
 
 # Local .terraform directories
