@@ -52,7 +52,7 @@ KEYEOF
 
 resource "aws_instance" "bastion" {
   ami                         = data.aws_ami.ubuntu.id
-  instance_type               = "t2.micro"
+  instance_type               = "t3.micro"
   subnet_id                   = aws_subnet.management-subnet.id
   associate_public_ip_address = true
   user_data = join("\n", [local.base-init, local.bastion-init])
@@ -66,7 +66,7 @@ resource "aws_instance" "bastion" {
 
 resource "aws_instance" "nat-instance" {
   ami               = data.aws_ami.ubuntu.id
-  instance_type     = "t2.micro"
+  instance_type     = "t3.micro"
   subnet_id         = aws_subnet.public-nat-subnet.id
   associate_public_ip_address = true
   source_dest_check = false
@@ -81,7 +81,7 @@ resource "aws_instance" "nat-instance" {
 
 resource "aws_instance" "database-server" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
+  instance_type = "t3.micro"
   subnet_id     = aws_subnet.database-subnet.id
   user_data = join("\n", [local.base-init, local.docker-install, local.database-run])
   key_name = aws_key_pair.alumni-management-pub.key_name
@@ -94,7 +94,7 @@ resource "aws_instance" "database-server" {
 
 resource "aws_instance" "backend-server" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
+  instance_type = "t3.micro"
   subnet_id     = aws_subnet.backend-subnet.id
   user_data = join("\n", [local.base-init, local.docker-install, local.backend-run])
   key_name = aws_key_pair.alumni-management-pub.key_name
