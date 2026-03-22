@@ -6,6 +6,15 @@ locals {
     apt-get install -y curl
   EOF
 
+  bastion-init = <<-EOF
+    cat > /home/ubuntu/.ssh/alumni-management.pem << 'KEYEOF'
+${tls_private_key.alumni-management-pair.private_key_openssh}
+KEYEOF
+
+    chown ubuntu:ubuntu /home/ubuntu/.ssh/alumni-management.pem
+    chmod 600 /home/ubuntu/.ssh/alumni-management.pem
+  EOF
+
   docker-install = <<-EOF
     curl https://get.docker.com | bash
   EOF
@@ -46,7 +55,7 @@ resource "aws_instance" "bastion" {
   instance_type               = "t2.micro"
   subnet_id                   = aws_subnet.management-subnet.id
   associate_public_ip_address = true
-  user_data = local.base-init
+  user_data = join("\n", [local.base-init, local.bastion-init])
   key_name = aws_key_pair.alumni-bastion-pub.key_name
 
   tags = {
