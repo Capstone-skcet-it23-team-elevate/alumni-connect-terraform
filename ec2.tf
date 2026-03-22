@@ -47,6 +47,7 @@ resource "aws_instance" "bastion" {
   subnet_id                   = aws_subnet.management-subnet.id
   associate_public_ip_address = true
   user_data = local.base-init
+  key_name = aws_key_pair.alumni-bastion-pub.key_name
 
   tags = {
     Name = "bastion"
@@ -60,6 +61,7 @@ resource "aws_instance" "nat-instance" {
   associate_public_ip_address = true
   source_dest_check = false
   user_data = join("\n", [local.base-init, local.nat-setup])
+  key_name = aws_key_pair.alumni-management-pub.key_name
 
   tags = {
     Name = "nat-instance"
@@ -71,6 +73,7 @@ resource "aws_instance" "database-server" {
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.database-subnet.id
   user_data = join("\n", [local.base-init, local.docker-install, local.database-run])
+  key_name = aws_key_pair.alumni-management-pub.key_name
 
   tags = {
     Name = "database-server"
@@ -82,9 +85,9 @@ resource "aws_instance" "backend-server" {
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.backend-subnet.id
   user_data = join("\n", [local.base-init, local.docker-install, local.backend-run])
+  key_name = aws_key_pair.alumni-management-pub.key_name
 
   tags = {
     Name = "backend-server"
   }
 }
-
