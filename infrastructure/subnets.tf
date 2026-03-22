@@ -45,11 +45,6 @@ resource "aws_route_table_association" "management-subnet" {
   route_table_id = aws_route_table.alumni-public-rt.id
 }
 
-resource "aws_route_table_association" "public-nat-subnet" {
-  subnet_id      = aws_subnet.public-nat-subnet.id
-  route_table_id = aws_route_table.alumni-public-rt.id
-}
-
 resource "aws_route_table_association" "database-subnet" {
   subnet_id      = aws_subnet.database-subnet.id
   route_table_id = aws_route_table.private-nat-rt.id
