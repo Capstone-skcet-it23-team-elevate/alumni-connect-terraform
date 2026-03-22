@@ -40,6 +40,17 @@ resource "aws_subnet" "database-subnet" {
   }
 }
 
+# for alb
+resource "aws_subnet" "empty-subnet" {
+  vpc_id = aws_vpc.alumni-connect-vpc.id
+  cidr_block = "172.16.4.0/24"
+  availability_zone = "ap-south-1b"
+
+  tags = {
+    Name = "empty-subnet"
+  }
+}
+
 resource "aws_route_table_association" "management-subnet" {
   subnet_id      = aws_subnet.management-subnet.id
   route_table_id = aws_route_table.alumni-public-rt.id
