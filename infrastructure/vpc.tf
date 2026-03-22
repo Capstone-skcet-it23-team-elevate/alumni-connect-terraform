@@ -33,7 +33,7 @@ resource "aws_route_table" "private-nat-rt" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    network_interface_id = aws_instance.nat-instance.primary_network_interface_id
+    nat_gateway_id = aws_nat_gateway.alumni-nat-gw.id
   }
 
   tags = {
