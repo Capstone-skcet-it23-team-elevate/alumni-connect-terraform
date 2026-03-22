@@ -9,17 +9,6 @@ resource "aws_subnet" "management-subnet" {
   }
 }
 
-resource "aws_subnet" "public-nat-subnet" {
-  vpc_id                  = aws_vpc.alumni-connect-vpc.id
-  cidr_block              = "172.16.0.0/24"
-  availability_zone       = "ap-south-1a"
-  map_public_ip_on_launch = true
-
-  tags = {
-    Name = "public-nat-subnet"
-  }
-}
-
 resource "aws_subnet" "backend-subnet" {
   vpc_id            = aws_vpc.alumni-connect-vpc.id
   cidr_block        = "172.16.2.0/24"
