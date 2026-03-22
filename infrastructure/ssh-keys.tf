@@ -17,7 +17,7 @@ resource "aws_key_pair" "alumni-bastion-pub" {
 }
 
 resource "local_file" "alumni-bastion-private-key" {
-  filename = "${path.module}/.ssh/alumni-bastion.pem"
-  content = tls_private_key.alumni-bastion-pair.private_key_openssh
+  filename        = "${path.module}/.ssh/alumni-bastion.pem"
+  content         = tls_private_key.alumni-bastion-pair.private_key_openssh
   file_permission = "0600"
 }

@@ -42,8 +42,8 @@ resource "aws_subnet" "database-subnet" {
 
 # for alb
 resource "aws_subnet" "empty-subnet" {
-  vpc_id = aws_vpc.alumni-connect-vpc.id
-  cidr_block = "172.16.4.0/24"
+  vpc_id            = aws_vpc.alumni-connect-vpc.id
+  cidr_block        = "172.16.4.0/24"
   availability_zone = "ap-south-1b"
 
   tags = {
@@ -62,16 +62,16 @@ resource "aws_route_table_association" "public-nat-subnet" {
 }
 
 resource "aws_route_table_association" "database-subnet" {
-  subnet_id = aws_subnet.database-subnet.id
+  subnet_id      = aws_subnet.database-subnet.id
   route_table_id = aws_route_table.private-nat-rt.id
 }
 
 resource "aws_route_table_association" "backend-subnet" {
-  subnet_id = aws_subnet.backend-subnet.id
+  subnet_id      = aws_subnet.backend-subnet.id
   route_table_id = aws_route_table.private-nat-rt.id
 }
 
 resource "aws_route_table_association" "empty-subnet" {
-  subnet_id = aws_subnet.empty-subnet.id
+  subnet_id      = aws_subnet.empty-subnet.id
   route_table_id = aws_route_table.alumni-public-rt.id
 }

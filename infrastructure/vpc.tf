@@ -32,7 +32,7 @@ resource "aws_route_table" "private-nat-rt" {
   vpc_id = aws_vpc.alumni-connect-vpc.id
 
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.alumni-nat-gw.id
   }
 
